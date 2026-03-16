@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มสินค้า - MATO EXE Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #4A44C8;
+            --secondary: #9D4EDD;
+            --accent: #FF6B9D;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gradient: linear-gradient(135deg, #6C63FF 0%, #9D4EDD 50%, #FF6B9D 100%);
+            --glow: 0 0 20px rgba(108, 99, 255, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        body {
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(108, 99, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 500;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            box-shadow: var(--glow);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light);
+            font-weight: 400;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(248, 249, 250, 0.5);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .stock-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .type-group {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+        }
+        
+        .type-option {
+            flex: 1;
+        }
+        
+        .type-option input[type="radio"] {
+            display: none;
+        }
+        
+        .type-option label {
+            display: block;
+            padding: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .type-option input[type="radio"]:checked + label {
+            background: var(--gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: var(--glow);
+        }
+        
+        .image-upload-area {
+            border: 2px dashed rgba(108, 99, 255, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.05);
+        }
+        
+        .image-upload-area.has-image {
+            border-style: solid;
+            padding: 10px;
+        }
+        
+        .image-upload-area.has-image .upload-placeholder {
+            display: none;
+        }
+        
+        .image-upload-area.has-image img {
+            display: block;
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+        }
+        
+        .upload-placeholder i {
+            font-size: 50px;
+            color: rgba(108, 99, 255, 0.5);
+            margin-bottom: 15px;
+        }
+        
+        .upload-placeholder p {
+            color: rgba(248, 249, 250, 0.7);
+        }
+        
+        .file-name {
+            margin-top: 10px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+        
+        .image-preview {
+            display: none;
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+        }
+        
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        
+        .flash {
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .flash.success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #28a745;
+        }
+        
+        .flash.error {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-plus-circle"></i>
+                เพิ่มสินค้าใหม่
+            </h1>
+            <a href="{{ url_for('admin_products') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                กลับ
+            </a>
+        </div>
+        
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_product') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name" class="required">ชื่อสินค้า</label>
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="กรอกชื่อสินค้า">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">รายละเอียดสินค้า</label>
+                    <textarea class="form-control" id="description" name="description" placeholder="กรอกรายละเอียดสินค้า"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price" class="required">ราคา (บาท)</label>
+                        <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required placeholder="0.00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="download_link">ลิงค์ดาวน์โหลด</label>
+                        <input type="url" class="form-control" id="download_link" name="download_link" placeholder="https://...">
+                    </div>
+                </div>
+                
+                <div class="stock-group">
+                    <div class="form-group">
+                        <label for="stock1">สต็อกแกล้งเพื่อน</label>
+                        <input type="number" class="form-control" id="stock1" name="stock1" min="0" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stock2">สต็อกใช้งานจริง</label>
+                        <input type="number" class="form-control" id="stock2" name="stock2" min="0" value="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">ประเภทสินค้า</label>
+                    <div class="type-group">
+                        <div class="type-option">
+                            <input type="radio" id="type1" name="product_type" value="1" checked>
+                            <label for="type1">
+                                <i class="fas fa-grin-wink"></i>
+                                แกล้งเพื่อน
+                            </label>
+                        </div>
+                        <div class="type-option">
+                            <input type="radio" id="type2" name="product_type" value="2">
+                            <label for="type2">
+                                <i class="fas fa-check-circle"></i>
+                                ใช้งานจริง
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>รูปภาพสินค้า</label>
+                    <div class="image-upload-area" id="imageUploadArea">
+                        <input type="file" id="image" name="image" accept="image/*" style="display: none;">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>คลิกเพื่อเลือกรูปภาพ หรือลากวางที่นี่</p>
+                            <p style="font-size: 12px;">รองรับไฟล์ PNG, JPG, JPEG, GIF, WEBP</p>
+                        </div>
+                        <img id="imagePreview" class="image-preview" src="#" alt="Preview">
+                    </div>
+                    <div id="fileName" class="file-name"></div>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">
+                    <i class="fas fa-save"></i>
+                    บันทึกสินค้า
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageUploadArea = document.getElementById('imageUploadArea');
+            const imageInput = document.getElementById('image');
+            const imagePreview = document.getElementById('imagePreview');
+            const fileName = document.getElementById('fileName');
+            
+            imageUploadArea.addEventListener('click', function() {
+                imageInput.click();
+            });
+            
+            imageUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = 'var(--primary)';
+                this.style.background = 'rgba(108, 99, 255, 0.05)';
+            });
+            
+            imageUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+                this.style.background = 'transparent';
+            });
+            
+            imageUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+                this.style.background = 'transparent';
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageSelect(file);
+                }
+            });
+            
+            imageInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    handleImageSelect(this.files[0]);
+                }
+            });
+            
+            function handleImageSelect(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadArea.classList.add('has-image');
+                    fileName.textContent = 'ไฟล์ที่เลือก: ' + file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ไดอารี่ของตัวฉัน - หน้าหลัก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Mali:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFB6C1;
+            --primary-dark: #FF69B4;
+            --secondary: #FFE4E1;
+            --accent: #FFC0CB;
+            --soft: #FFF0F5;
+            --text: #4A4A4A;
+            --shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FFF9F9 0%, #FFEFF2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* ดอกไม้ลอย */
+        .flower {
+            position: fixed;
+            color: rgba(255, 182, 193, 0.15);
+            font-size: 30px;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+        
+        .flower-1 { top: 5%; left: 2%; }
+        .flower-2 { top: 15%; right: 3%; }
+        .flower-3 { bottom: 10%; left: 5%; }
+        .flower-4 { bottom: 20%; right: 4%; }
+        .flower-5 { top: 40%; left: 8%; }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 182, 193, 0.3);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-family: 'Mali', cursive;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-badge {
+            background: var(--soft);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-badge i {
+            color: var(--primary-dark);
+        }
+        
+        .logout-btn {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 105, 180, 0.1);
+            color: var(--primary-dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 32px;
+            color: var(--text);
+            margin-bottom: 10px;
+            font-family: 'Mali', cursive;
+        }
+        
+        .welcome-section p {
+            color: var(--text);
+            opacity: 0.8;
+            font-size: 18px;
+        }
+        
+        .welcome-section span {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .diary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .diary-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .diary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .diary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FFB6C1, #FF69B4, #FFB6C1);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .diary-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .mood-badge {
+            background: var(--soft);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary);
+        }
+        
+        .date {
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        .diary-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-family: 'Mali', cursive;
+        }
+        
+        .diary-content {
+            color: var(--text);
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .diary-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .read-more {
+            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            border: 2px dashed var(--primary);
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        .heart {
+            color: var(--primary-dark);
+            animation: heartbeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @media (max-width: 768px) {
+            .diary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ดอกไม้ลอย -->
+    <i class="fas fa-seedling flower flower-1"></i>
+    <i class="fas fa-seedling flower flower-2"></i>
+    <i class="fas fa-seedling flower flower-3"></i>
+    <i class="fas fa-seedling flower flower-4"></i>
+    <i class="fas fa-seedling flower flower-5"></i>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                ไดอารี่ของตะวัน
+            </div>
+            <div class="user-info">
+                <div class="user-badge">
+                    <i class="fas fa-user"></i>
+                    <span>{{ user_name }}</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    ออกจากระบบ
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="welcome-section">
+            <h2>📖 ไดอารี่ของ ตะวัน</h2>
+            <p>ยินดีต้อนรับ <span>{{ user_name }}</span> สู่พื้นที่แห่งความทรงจำ</p>
+        </div>
+        
+        {% if diaries %}
+        <div class="diary-grid">
+            {% for diary in diaries %}
+            <div class="diary-card">
+                <div class="diary-header">
+                    <span class="mood-badge">
+                        <i class="fas fa-{% if diary.mood == 'มีความสุข' %}smile{% elif diary.mood == 'คิดถึง' %}heart{% else %}moon{% endif %}"></i>
+                        {{ diary.mood }}
+                    </span>
+                    <span class="date">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ diary.created_at[:10] }}
+                    </span>
+                </div>
+                <h3 class="diary-title">{{ diary.title }}</h3>
+                <p class="diary-content">{{ diary.content }}</p>
+                <div class="diary-footer">
+                    <a href="{{ url_for('view_diary', diary_id=diary.id) }}" class="read-more">
+                        อ่านต่อ <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-book-open"></i>
+            <h3>ยังไม่มีไดอารี่</h3>
+            <p>รอติดตามเรื่องราวดีๆ จากผู้เขียนเร็วๆ นี้</p>
+        </div>
+        {% endif %}
+        
+        <footer>
+            <p>พื้นที่แห่งการแบ่งปันเรื่องราว ด้วย <i class="fas fa-heart heart"></i> จากตูน ตะวัน</p>
+        </footer>
+    </div>
+</body>
+</html>

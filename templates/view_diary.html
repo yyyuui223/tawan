@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ diary.title }} - ไดอารี่ของตัวฉัน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Mali:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFB6C1;
+            --primary-dark: #FF69B4;
+            --secondary: #FFE4E1;
+            --accent: #FFC0CB;
+            --soft: #FFF0F5;
+            --text: #4A4A4A;
+            --shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FFF9F9 0%, #FFEFF2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* ดอกไม้ลอย */
+        .flower {
+            position: fixed;
+            color: rgba(255, 182, 193, 0.15);
+            font-size: 30px;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+        
+        .flower-1 { top: 5%; left: 2%; }
+        .flower-2 { top: 15%; right: 3%; }
+        .flower-3 { bottom: 10%; left: 5%; }
+        .flower-4 { bottom: 20%; right: 4%; }
+        .flower-5 { top: 40%; left: 8%; }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 182, 193, 0.3);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-family: 'Mali', cursive;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-badge {
+            background: var(--soft);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-badge i {
+            color: var(--primary-dark);
+        }
+        
+        .back-btn {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 105, 180, 0.1);
+            color: var(--primary-dark);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .diary-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+        
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed var(--primary);
+        }
+        
+        .mood-badge {
+            background: var(--soft);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary);
+        }
+        
+        .date {
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        .diary-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 30px;
+            font-family: 'Mali', cursive;
+        }
+        
+        .diary-content {
+            color: var(--text);
+            line-height: 2;
+            font-size: 18px;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+        
+        .author-signature {
+            text-align: right;
+            font-family: 'Mali', cursive;
+            color: var(--primary-dark);
+            font-size: 18px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--primary);
+        }
+        
+        /* ปุ่มอยากรู้จัก */
+        .interest-section {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed var(--primary);
+        }
+        
+        .interest-btn {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .interest-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+        }
+        
+        .interest-message {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            display: none;
+        }
+        
+        .interest-message.show {
+            display: block;
+        }
+        
+        .interest-message p {
+            color: var(--text);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .instagram-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        /* คอมเม้นต์ */
+        .comments-section {
+            margin-top: 40px;
+        }
+        
+        .comments-title {
+            font-size: 24px;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-family: 'Mali', cursive;
+        }
+        
+        .comment-form {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .comment-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            border-radius: 20px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: vertical;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text);
+        }
+        
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+        }
+        
+        .comment-btn {
+            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .comment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+        
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .comment-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .comment-user {
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .comment-date {
+            font-size: 12px;
+            color: var(--text);
+            opacity: 0.6;
+        }
+        
+        .comment-content {
+            color: var(--text);
+            margin-bottom: 15px;
+            line-height: 1.8;
+            padding-left: 10px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .reply-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            margin-left: 20px;
+        }
+        
+        .reply-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .reply-form input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .reply-form button {
+            padding: 10px 20px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .reply-text {
+            color: var(--primary-dark);
+            font-style: italic;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 240, 245, 0.5);
+            border-radius: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        .heart {
+            color: var(--primary-dark);
+            animation: heartbeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ดอกไม้ลอย -->
+    <i class="fas fa-seedling flower flower-1"></i>
+    <i class="fas fa-seedling flower flower-2"></i>
+    <i class="fas fa-seedling flower flower-3"></i>
+    <i class="fas fa-seedling flower flower-4"></i>
+    <i class="fas fa-seedling flower flower-5"></i>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                ไดอารี่ของตัวฉัน
+            </div>
+            <div class="user-info">
+                <div class="user-badge">
+                    <i class="fas fa-user"></i>
+                    <span>{{ user_name }}</span>
+                </div>
+                <a href="javascript:history.back()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    กลับ
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- เนื้อหาไดอารี่ -->
+        <div class="diary-container">
+            <div class="diary-header">
+                <span class="mood-badge">
+                    <i class="fas fa-{% if diary.mood == 'มีความสุข' %}smile{% elif diary.mood == 'คิดถึง' %}heart{% else %}moon{% endif %}"></i>
+                    {{ diary.mood }}
+                </span>
+                <span class="date">
+                    <i class="far fa-calendar-alt"></i>
+                    {{ diary.created_at }}
+                </span>
+            </div>
+            
+            <h1 class="diary-title">{{ diary.title }}</h1>
+            <div class="diary-content">
+                {{ diary.content }}
+            </div>
+            
+            <div class="author-signature">
+                - ด้วยรักจาก ตูน ตะวัน -
+            </div>
+        </div>
+        
+        <!-- ปุ่มอยากรู้จัก (สำหรับผู้อ่านเท่านั้น) -->
+        {% if not is_author %}
+        <div class="interest-section">
+            <button class="interest-btn" onclick="showInterest()">
+                <i class="fas fa-heart"></i>
+                อยากรู้จักผู้เขียน
+            </button>
+            
+            <div class="interest-message" id="interestMessage">
+                <p>💕 ขอบคุณที่สนใจนะคะ 💕</p>
+                <p>สามารถทักมาคุยกันได้ที่ Instagram เลยค่า</p>
+                <a href="https://instagram.com/ttttt___998on" target="_blank" class="instagram-link">
+                    <i class="fab fa-instagram"></i>
+                    ttttt___998on
+                </a>
+                <p style="margin-top: 15px; font-size: 14px;">มาคุยกันนนน รออยู่นะคะ 💖</p>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- ส่วนคอมเม้นต์ -->
+        <div class="comments-section">
+            <h3 class="comments-title">
+                <i class="far fa-comments"></i>
+                คอมเม้นต์ ({{ comments|length }})
+            </h3>
+            
+            <!-- ฟอร์มคอมเม้นต์ (สำหรับผู้อ่าน) -->
+            {% if not is_author %}
+            <div class="comment-form">
+                <form id="commentForm">
+                    <textarea id="commentContent" placeholder="เขียนคอมเม้นต์..." rows="3" required></textarea>
+                    <button type="submit" class="comment-btn">
+                        <i class="far fa-paper-plane"></i>
+                        ส่งคอมเม้นต์
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            
+            <!-- รายการคอมเม้นต์ -->
+            <div class="comments-list" id="commentsList">
+                {% for comment in comments %}
+                <div class="comment-card" id="comment-{{ comment.id }}">
+                    <div class="comment-header">
+                        <span class="comment-user">
+                            <i class="fas fa-user-circle"></i>
+                            {{ comment.user_name }}
+                        </span>
+                        <span class="comment-date">{{ comment.created_at }}</span>
+                    </div>
+                    <div class="comment-content">
+                        {{ comment.content }}
+                    </div>
+                    
+                    <!-- ส่วนตอบกลับ (สำหรับผู้เขียน) -->
+                    {% if is_author %}
+                    <div class="reply-section">
+                        {% if comment.reply %}
+                            <div class="reply-text">
+                                <i class="fas fa-reply"></i>
+                                {{ comment.reply }}
+                            </div>
+                        {% else %}
+                            <form class="reply-form" onsubmit="replyToComment(event, {{ comment.id }})">
+                                <input type="text" id="reply-{{ comment.id }}" placeholder="พิมพ์คำตอบ...">
+                                <button type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- แสดงคำตอบ (สำหรับผู้อ่าน) -->
+                    {% if not is_author and comment.reply %}
+                    <div class="reply-section">
+                        <div class="reply-text">
+                            <i class="fas fa-reply" style="color: var(--primary-dark);"></i>
+                            <strong>ผู้เขียนตอบกลับ:</strong> {{ comment.reply }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <footer>
+            <p>พื้นที่แห่งการแบ่งปันเรื่องราว ด้วย <i class="fas fa-heart heart"></i> จากตูน ตะวัน</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showInterest() {
+            const messageDiv = document.getElementById('interestMessage');
+            messageDiv.classList.toggle('show');
+            
+            // ส่งข้อมูลไปยังผู้เขียน
+            fetch('/add_interest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'สนใจอยากรู้จักผู้เขียน'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ส่งความสนใจแล้ว!',
+                        text: 'ผู้เขียนจะได้รับการแจ้งเตือน',
+                        confirmButtonColor: '#FF69B4'
+                    });
+                }
+            });
+        }
+        
+        // ส่งคอมเม้นต์
+        document.getElementById('commentForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const content = document.getElementById('commentContent').value;
+            
+            fetch('/add_comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    diary_id: {{ diary.id }},
+                    content: content
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'คอมเม้นต์สำเร็จ!',
+                        text: 'ความคิดเห็นของคุณถูกบันทึกแล้ว',
+                        confirmButtonColor: '#FF69B4'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: data.message,
+                        confirmButtonColor: '#FF69B4'
+                    });
+                }
+            });
+        });
+        
+        // ตอบกลับคอมเม้นต์ (สำหรับผู้เขียน)
+        function replyToComment(event, commentId) {
+            event.preventDefault();
+            
+            const reply = document.getElementById(`reply-${commentId}`).value;
+            
+            if (!reply) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณากรอกคำตอบ',
+                    confirmButtonColor: '#FF69B4'
+                });
+                return;
+            }
+            
+            fetch('/reply_comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    comment_id: commentId,
+                    reply: reply
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ตอบกลับสำเร็จ!',
+                        text: data.message,
+                        confirmButtonColor: '#FF69B4'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: data.message,
+                        confirmButtonColor: '#FF69B4'
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
