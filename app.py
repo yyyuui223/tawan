@@ -13,7 +13,7 @@ AUTHOR_INSTAGRAM = "Tttwsiiiwxkakkkac"
 AUTHOR_INSTAGRAM_SHOW = "ttttt___998on"  # ไอจีที่ให้คนอื่นติดต่อ
 
 def init_db():
-    conn = sqlite3.connect('diary.db')
+    conn = sqlite3.connect('diary_v2.db')
     c = conn.cursor()
     
     # ตารางผู้ใช้
@@ -69,7 +69,7 @@ def init_db():
 init_db()
 
 def get_db_connection():
-    conn = sqlite3.connect('diary.db')
+    conn = sqlite3.connect('diary_v2.db')
     conn.row_factory = sqlite3.Row
     return conn
 
