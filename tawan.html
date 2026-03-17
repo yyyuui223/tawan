@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกการเปลี่ยนแปลงของตะวัน ✦ ไดอารี่การเปลี่ยนแปลง</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Mali:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #f9f3e8 0%, #fff3e0 100%);
+            min-height: 100vh;
+            color: #4a3729;
+            line-height: 1.8;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* เอฟเฟกต์แสงอาทิตย์ */
+        .sun-effect {
+            position: fixed;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,215,120,0.3) 0%, rgba(255,200,100,0.1) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: sunGlow 8s infinite alternate;
+        }
+
+        .sun-effect2 {
+            position: fixed;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,180,100,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: sunGlow2 10s infinite alternate;
+        }
+
+        @keyframes sunGlow {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        @keyframes sunGlow2 {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        /* คอนเทนเนอร์หลัก */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 25px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* หัวข้อเว็บ */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #c5531e;
+            text-shadow: 3px 3px 0 rgba(255, 180, 60, 0.3);
+            letter-spacing: 2px;
+            font-family: 'Mali', cursive;
+            margin-bottom: 10px;
+        }
+
+        .header h1 i {
+            color: #ffb347;
+            font-size: 3rem;
+            margin: 0 10px;
+        }
+
+        .subhead {
+            font-size: 1.3rem;
+            color: #b45f3a;
+            background: rgba(255, 235, 200, 0.7);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 2px dashed #ffb45e;
+        }
+
+        .subhead i {
+            color: #ff8c42;
+            margin: 0 8px;
+        }
+
+        /* กล่องไดอารี่ */
+        .diary-card {
+            background: rgba(255, 250, 240, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 50px 50px 50px 50px;
+            padding: 50px 60px;
+            box-shadow: 0 25px 50px -10px rgba(0,0,0,0.2),
+                        0 0 0 2px #fff9e6,
+                        0 0 0 5px #ffd79c;
+            margin-bottom: 40px;
+            position: relative;
+            transition: 0.3s;
+            border: 1px solid rgba(255,200,130,0.5);
+        }
+
+        .diary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -10px rgba(200,120,50,0.3),
+                        0 0 0 2px #fff9e6,
+                        0 0 0 5px #ffb347;
+        }
+
+        /* ตกแต่งมุมกระดาษ */
+        .corner-decor {
+            position: absolute;
+            font-size: 2rem;
+            color: #ffb347;
+            opacity: 0.5;
+        }
+
+        .corner-1 {
+            top: 20px;
+            left: 25px;
+        }
+
+        .corner-2 {
+            top: 20px;
+            right: 25px;
+            transform: rotate(90deg);
+        }
+
+        .corner-3 {
+            bottom: 20px;
+            left: 25px;
+            transform: rotate(-90deg);
+        }
+
+        .corner-4 {
+            bottom: 20px;
+            right: 25px;
+            transform: rotate(180deg);
+        }
+
+        /* ส่วนหัวของไดอารี่ */
+        .diary-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .profile-circle {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #ffb347, #ff8c42);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.4);
+            border: 4px solid #ffe6b3;
+        }
+
+        .title-box {
+            flex: 1;
+        }
+
+        .diary-date {
+            color: #b5712e;
+            font-size: 1rem;
+            background: #fff0d6;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            margin-bottom: 8px;
+        }
+
+        .diary-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #7b3f00;
+            line-height: 1.2;
+            font-family: 'Mali', cursive;
+        }
+
+        .diary-title i {
+            color: #ffa726;
+            font-size: 2rem;
+        }
+
+        .nickname {
+            background: #ffd9b0;
+            padding: 5px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 15px 0 5px;
+        }
+
+        /* เนื้อเรื่อง */
+        .story-content {
+            font-size: 1.2rem;
+            color: #4a2e1e;
+            margin: 30px 0;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .story-content p {
+            margin-bottom: 25px;
+            text-indent: 2em;
+            position: relative;
+        }
+
+        .story-content p:first-child {
+            text-indent: 0;
+        }
+
+        .story-content p:first-child::first-letter {
+            font-size: 4rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 10px;
+            color: #ff8c42;
+            font-family: 'Mali', cursive;
+            font-weight: 700;
+            text-shadow: 2px 2px 0 #ffe0b0;
+        }
+
+        /* คำพูด/บทสนทนาพิเศษ */
+        .highlight-quote {
+            background: linear-gradient(135deg, #fff2d7, #ffe8c8);
+            border-left: 8px solid #ff9933;
+            padding: 20px 30px;
+            border-radius: 30px 10px 30px 10px;
+            margin: 30px 0;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.2);
+            font-weight: 500;
+        }
+
+        .highlight-quote i {
+            color: #ff8c42;
+            margin-right: 10px;
+        }
+
+        /* คำบูลลี่ (แสดงเป็นแท็ก) */
+        .bully-tag {
+            display: inline-block;
+            background: #ffd9b0;
+            padding: 5px 18px;
+            border-radius: 50px;
+            margin: 3px;
+            color: #b14500;
+            font-weight: 500;
+            font-size: 1rem;
+            border: 2px dashed #ffb347;
+        }
+
+        .bully-container {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ตัวเลขสถิติ */
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: #fff9ed;
+            padding: 20px 25px;
+            border-radius: 40px;
+            min-width: 150px;
+            box-shadow: 0 5px 0 #ffb347;
+            border: 2px solid #ffdbaf;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ff6b35;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #7b4d2e;
+        }
+
+        .stat-desc {
+            font-size: 0.85rem;
+            color: #b5712e;
+            margin-top: 5px;
+        }
+
+        /* อีโมจิพิเศษ */
+        .emoji-big {
+            font-size: 2rem;
+            margin: 0 5px;
+        }
+
+        /* ส่วนให้กำลังใจ */
+        .encouragement {
+            background: rgba(255, 235, 200, 0.7);
+            border-radius: 70px 20px 70px 20px;
+            padding: 40px 30px;
+            margin: 40px 0 20px;
+            border: 3px solid #ffb347;
+            box-shadow: 0 15px 0 #b5671e;
+            position: relative;
+        }
+
+        .encouragement h3 {
+            font-size: 2rem;
+            color: #b5510f;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Mali', cursive;
+        }
+
+        .encouragement p {
+            font-size: 1.3rem;
+            color: #4f2c12;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .encouragement .signature {
+            font-size: 1.5rem;
+            color: #c55e1e;
+            margin-top: 30px;
+            text-align: right;
+            font-family: 'Mali', cursive;
+        }
+
+        /* ส่วนท้าย (Footer) */
+        .footer-box {
+            background: #ffe6cc;
+            border-radius: 40px;
+            padding: 30px 40px;
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border: 3px solid #ffad60;
+        }
+
+        .hashtag {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #b5510f;
+            font-family: 'Mali', cursive;
+        }
+
+        .hashtag span {
+            background: #ffb85c;
+            padding: 5px 15px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+
+        .instagram {
+            font-size: 1.6rem;
+            color: #b23b00;
+        }
+
+        .instagram i {
+            color: #e1306c;
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+
+        .instagram a {
+            text-decoration: none;
+            color: #b23b00;
+            background: #fff0d0;
+            padding: 8px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            transition: 0.3s;
+            border: 2px solid #ff9933;
+        }
+
+        .instagram a:hover {
+            background: #ffb347;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .footer-note {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            color: #8b5a2e;
+            font-size: 1rem;
+        }
+
+        /* อีโมจิ floating */
+        .floating-emoji {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .emoji-1 {
+            top: 10%;
+            left: 5%;
+            animation: float 6s infinite;
+        }
+        .emoji-2 {
+            bottom: 15%;
+            right: 5%;
+            animation: float 8s infinite reverse;
+        }
+        .emoji-3 {
+            top: 30%;
+            right: 10%;
+            animation: float 7s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .diary-card {
+                padding: 30px 25px;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .diary-title {
+                font-size: 2rem;
+            }
+            .profile-circle {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- เอฟเฟกต์แสง -->
+    <div class="sun-effect"></div>
+    <div class="sun-effect2"></div>
+    
+    <!-- อีโมจิ floating -->
+    <div class="floating-emoji emoji-1">☀️</div>
+    <div class="floating-emoji emoji-2">💪</div>
+    <div class="floating-emoji emoji-3">🏃</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-sun"></i>
+                บันทึกของตะวัน
+                <i class="fas fa-sun"></i>
+            </h1>
+            <div class="subhead">
+                <i class="fas fa-feather-alt"></i>
+                ไดอารี่การเปลี่ยนแปลง
+                <i class="fas fa-feather-alt"></i>
+            </div>
+        </div>
+
+        <!-- กล่องไดอารี่หลัก -->
+        <div class="diary-card">
+            <!-- มุมตกแต่ง -->
+            <div class="corner-decor corner-1"><i class="fas fa-sun"></i></div>
+            <div class="corner-decor corner-2"><i class="fas fa-sun"></i></div>
+            <div class="corner-decor corner-3"><i class="fas fa-sun"></i></div>
+            <div class="corner-decor corner-4"><i class="fas fa-sun"></i></div>
+
+            <!-- หัวเรื่องในไดอารี่ -->
+            <div class="diary-header">
+                <div class="profile-circle">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <div class="title-box">
+                    <div class="diary-date">
+                        <i class="far fa-calendar-alt"></i> บันทึกเมื่อ... ตลอด 3 ปีที่ผ่านมา
+                    </div>
+                    <div class="diary-title">
+                        บันทึกการเปลี่ยนแปลงของตะวัน 
+                        <i class="fas fa-arrow-right"></i> 
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="nickname">
+                        <i class="fas fa-tag"></i> สวัสดีครับ ผมชื่อการ์ตูน เพื่อนชอบเรียก <strong>"ตะวัน"</strong> ☀️
+                    </div>
+                </div>
+            </div>
+
+            <!-- เนื้อเรื่อง -->
+            <div class="story-content">
+                <p>
+                    สวัสดีครับ ผมชื่อการ์ตูน เพื่อนชอบเรียกตะวัน
+                </p>
+                <p>
+                    <i class="fas fa-child emoji-big" style="color: #c57c4a;"></i> 
+                    ผมตอน ม.1-ม.3 เป็นเด็กที่อ้วนมากครับ ตอนนั้นน้ำหนัก 110 กิโล 
+                    เจอคำดูถูก บูลลี่ เหยียดเยอะมาก เช่น...
+                </p>
+                
+                <!-- คำบูลลี่ -->
+                <div class="bully-container">
+                    <span class="bully-tag"><i class="fas fa-angry"></i> ไอ้อ้วน</span>
+                    <span class="bully-tag"><i class="fas fa-poop"></i> ไอ้ตัวเหม็น</span>
+                    <span class="bully-tag"><i class="fas fa-cat"></i> ไอ้คอคาบอน</span>
+                    <span class="bully-tag"><i class="fas fa-circle"></i> ไอ้ตุ้ยนุ้ย</span>
+                    <span class="bully-tag"><i class="fas fa-oil-can"></i> ไอ้ไขมันย้อย</span>
+                    <span class="bully-tag"><i class="fas fa-running"></i> มึงวิ่งหรือกลิ้งเอา</span>
+                    <span class="bully-tag"><i class="fas fa-candy-cane"></i> อ้วนแบบมึงจะเป็นไรได้นอกจากเบาหวานกับโรคอ้วน 555</span>
+                </div>
+
+                <p>
+                    ความรู้สึกก็น้อยใจอะครับ น้อยใจที่ว่าทำไมเกิดมาอ้วน แอบมานั่งร้องไห้ที่บ้าน 
+                    <i class="far fa-sad-tear"></i> แต่ก็ใจมันไม่ยอมอะครับ ก็เลยคิดว่า จะออกกำลังกายดีกว่า 
+                    ออกกำลังกายวันแรก ออกแบบผิดๆถูกๆ ไปเรื่อยๆ ผ่านไปอาทิตย์นึง น้ำหนักไม่ลง ตอนนั้นเริ่มท้อครับ ท้อมากๆ
+                </p>
+
+                <div class="highlight-quote">
+                    <i class="fas fa-quote-left"></i> 
+                    ทำไมน้ำหนักไม่ลง... แต่ไม่ยอมแพ้! 
+                    <i class="fas fa-quote-right"></i>
+                </div>
+
+                <p>
+                    เลยคิดว่า เดินไกลเอาดีกว่า เดินเอาไขมันออก ซึ่งมันก็ได้ผลครับ 
+                    ผมเดินประมาณ 3 อาทิตย์ น้ำหนักจาก 110 เหลือ 105 มันก็ลดลงเรื่อยๆอะครับ 
+                </p>
+
+                <!-- สถิติการเปลี่ยนแปลง -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">110</div>
+                        <div class="stat-label">กก.</div>
+                        <div class="stat-desc">ม.1-ม.3</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">105</div>
+                        <div class="stat-label">กก.</div>
+                        <div class="stat-desc">หลังเดิน 3 อาทิตย์</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">91</div>
+                        <div class="stat-label">กก.</div>
+                        <div class="stat-desc">ขึ้นม.4</div>
+                    </div>
+                </div>
+
+                <p>
+                    จนตอนขึ้นม.4 น้ำหนักเหลือ 91 ตอนนั้นคือผอมแบบผอมเลย แต่ก็ยังหนีคำบูลลี่ไม่ได้ 
+                    บางคนว่า ติดยา บางคนว่า เล่นยา บางคนว่า เป็นโรค 
+                </p>
+
+                <p>
+                    แต่ก็ไม่สนใจอะครับ เลยตัดสินใจ เรียน นศท เพื่อสร้างจุดยืนให้ตัวเอง 
+                    ก็ยังหนีไม่พ้นคำดูถูกอีก บางคนว่า แอ็ค บางคนว่า เบียว 555 
+                    ก็ไม่ได้สนใจ ก็พัฒนาตัวเองมาเรื่อยๆครับ 
+                </p>
+
+                <p>
+                    <i class="fas fa-dumbbell"></i> ตอนม.5 เริ่มกิน กินให้น้ำหนักมัน 98 เพื่อที่จะสร้างกล้ามเนื้อ 
+                    แล้วปัจจุบันนี้ กำลังสร้างกล้ามเนื้อให้ใหญ่ และกำลังลีนหุ่น ให้คม และเพียวครับ
+                </p>
+
+                <!-- ส่วนให้กำลังใจ -->
+                <div class="encouragement">
+                    <h3>
+                        <i class="fas fa-heart" style="color: #ff6b6b;"></i>
+                        ข้อความถึงคนอ่าน
+                        <i class="fas fa-heart" style="color: #ff6b6b;"></i>
+                    </h3>
+                    <p>
+                        ขอบคุณที่อ่านจนจบนะครับ <i class="far fa-smile-wink"></i><br>
+                        ถ้าคนอ่านมีไฟในการออกกำลังกาย ก็สู้ๆนะค้าบบ คุณทำได้อยู่แล้ว 
+                        มันไม่ยากหรอก แต่ก็ไม่ง่าย <strong>วินัยคือสิ่งสำคัญ</strong> 
+                        สู้ๆนะครับ ท้อแท้แค่ไหน อย่าไปยอมมันครับ มันแค่อุปสรรคเล็กน้อย 
+                        สู้ๆงับ <i class="fas fa-heart" style="color: #ff4444;"></i>
+                        <i class="fas fa-heart" style="color: #ff4444;"></i>
+                        <i class="fas fa-hand-peace"></i>
+                    </p>
+                    <div class="signature">
+                        - ตะวัน <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+
+                <!-- คำพูดปิดท้ายในเนื้อเรื่อง -->
+                <p style="text-align: right; font-style: italic;">
+                    "จากเด็กอ้วน 110 สู่คนใหม่ที่มีวินัย" 
+                    <i class="fas fa-feather"></i>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer / ปิดท้าย -->
+        <div class="footer-box">
+            <div class="hashtag">
+                #ตะวัน <span>#พิบูล</span>
+            </div>
+            <div class="instagram">
+                <a href="https://instagram.com/ttttt___998on" target="_blank">
+                    <i class="fab fa-instagram"></i> ttttt___998on
+                </a>
+            </div>
+            <div class="footer-note">
+                <i class="fas fa-star"></i> ขอบคุณที่เข้ามาอ่านนะครับ ไว้เจอกันใหม่กับความเปลี่ยนแปลงของตะวัน 
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+
+        <!-- เครดิตเล็กน้อย (ตกแต่ง) -->
+        <div style="text-align: center; margin-top: 30px; color: #b98f67; font-size: 0.9rem;">
+            <i class="fas fa-sun"></i> บันทึกนี้เขียนด้วยใจจากตะวัน สู่ทุกคนที่กำลังสู้ชีวิต 
+            <i class="fas fa-sun"></i>
+        </div>
+    </div>
+</body>
+</html>
